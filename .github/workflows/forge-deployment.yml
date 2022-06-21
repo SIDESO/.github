@@ -11,10 +11,6 @@ jobs:
       DEPLOY_PROD_URL: ${{ secrets.FORGE_DEPLOY_PRODUCTION }}
     if: github.ref == 'refs/heads/stage' || github.ref == 'refs/heads/master'
     steps:
-      - name: Debug
-        run: echo env.DEPLOY_STAGE_URL
-      - name: Debug2
-        run: echo env.DEPLOY_PROD_URL
       - name: Deploy app staging server
         if: env.DEPLOY_STAGE_URL != '' && github.ref == 'refs/heads/stage'
         uses: fjogeleit/http-request-action@master
