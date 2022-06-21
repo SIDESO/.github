@@ -55,30 +55,23 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan test --coverage --min=80
 
-  deployment-staging: 
+  deployment: 
     runs-on: ubuntu-latest
     needs: laravel-tests
     env:
-      DEPLOY_URL: ${{ secrets.FORGE_DEPLOY_STAGING }}
-    if: github.ref == 'refs/heads/stage'
+      DEPLOY_STAGE_URL: ${{ secrets.FORGE_DEPLOY_STAGING }}
+      DEPLOY_PROD_URL: ${{ secrets.FORGE_DEPLOY_PRODUCTION }}
+    if: github.ref == 'refs/heads/stage' || github.ref == 'refs/heads/master'
     steps:
       - name: Deploy app staging server
-        if: "${{ env.DEPLOY_URL != '' }}"
+        if: ${{ env.DEPLOY_URL != '' }} && github.ref == 'refs/heads/stage'
         uses: fjogeleit/http-request-action@master
         with:
-            url: ${{ env.DEPLOY_URL }}
+            url: ${{ env.DEPLOY_STAGE_URL }}
             method: 'POST'
-
-  deployment-production: 
-    runs-on: ubuntu-latest
-    needs: laravel-tests
-    env:
-      DEPLOY_URL: ${{ secrets.FORGE_DEPLOY_PRODUCTION }}
-    if: github.ref == 'refs/heads/master'
-    steps:
       - name: Deploy app production server
-        if: "${{ env.DEPLOY_URL != '' }}"
+        if: ${{ env.DEPLOY_URL != '' }} && github.ref == 'refs/heads/master'
         uses: fjogeleit/http-request-action@master
         with:
-            url: ${{ env.DEPLOY_URL }}
+            url: ${{ env.DEPLOY_PROD_URL }}
             method: 'POST'
