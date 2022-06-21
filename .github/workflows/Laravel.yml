@@ -62,13 +62,13 @@ jobs:
     if: github.ref == 'refs/heads/stage' || github.ref == 'refs/heads/master'
     steps:
       - name: Deploy app staging server
-        if: ${{ env.DEPLOY_URL != '' }} && github.ref == 'refs/heads/stage'
+        if: ${{ env.DEPLOY_STAGE_URL != '' }} && github.ref == 'refs/heads/stage'
         uses: fjogeleit/http-request-action@master
         with:
             url: ${{ env.DEPLOY_STAGE_URL }}
             method: 'POST'
       - name: Deploy app production server
-        if: ${{ env.DEPLOY_URL != '' }} && github.ref == 'refs/heads/master'
+        if: ${{ env.DEPLOY_PROD_URL != '' }} && github.ref == 'refs/heads/master'
         uses: fjogeleit/http-request-action@master
         with:
             url: ${{ env.DEPLOY_PROD_URL }}
