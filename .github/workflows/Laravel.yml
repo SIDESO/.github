@@ -2,7 +2,6 @@ name: Laravel
 
 on:
   workflow_call:
-    secrets: inherit
 
 jobs:
   php-cs-fixer:
@@ -25,6 +24,7 @@ jobs:
         commit_message: Apply php-cs-fixer changes
         commit_user_name: SIDESO Bot # defaults to "github-actions[bot]"
         commit_user_email: my-github-actions-bot@sideso.com.co # defaults to "github-actions[bot]@users.noreply.github.com"
+    
 
   laravel-tests:
     needs: php-cs-fixer
